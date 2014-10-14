@@ -140,6 +140,15 @@ describe 'ssh-hardening::client' do
         .with_content(/Ciphers [^#]*\baes192-ctr\b/)
         .with_content(/Ciphers [^#]*\baes256-ctr\b/)
     end
+  end
 
+  context 'chef-solo' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new.converge(described_recipe)
+    end
+
+    it 'does not raise an error' do
+      expect { chef_run }.not_to raise_error
+    end
   end
 end
